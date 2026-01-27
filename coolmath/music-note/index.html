@@ -1,0 +1,205 @@
+<!-- Music Note from CoolMathGames.com -->
+<!DOCTYPE html>
+<html lang="en-us">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js">
+</script>
+<script>
+	function triggerAdBreak() {
+		cmgAdBreak();
+	}
+	// To trigger the event Listener adBreakStart
+	document.addEventListener("adBreakStart", () => {
+		console.log("AdBreak Started")
+		//TODO: Developer needs to add the logic to pause the game and sound here
+		gameInstance.SendMessage("CMG", "PauseGame");
+	});
+	// To trigger the event Listener adBreakComplete
+	document.addEventListener("adBreakComplete", () => {
+		console.log("adBreak Complete")
+		//TODO: Developer needs to add the logic to resume the game and sound here
+		gameInstance.SendMessage("CMG", "ResumeGame");
+	});
+</script>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Music Note</title>
+	<style>
+		html,
+		body {
+			background: #ffe3d5;
+			width: 100%;
+			height: 100%;
+			overflow: visible;
+			padding: 0;
+			margin: 0;
+		}
+
+		div#gameContainer {
+			background: transparent !important;
+			position: absolute;
+		}
+
+		div#gameContainer canvas {
+			position: absolute;
+		}
+
+		div#gameContainer canvas[data-pixel-art="true"] {
+			position: absolute;
+			image-rendering: optimizeSpeed;
+			image-rendering: -webkit-crisp-edges;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -o-crisp-edges;
+			image-rendering: crisp-edges;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: optimize-contrast;
+			image-rendering: pixelated;
+			-ms-interpolation-mode: nearest-neighbor;
+		}
+
+		.logo-container {
+			position: absolute;
+			top: 20%;
+			left: 0;
+			right: 0;
+			margin: 0 auto;
+			text-align: center;
+		}
+
+		.logo-image {
+			width: 70%;
+			height: auto;
+		}
+
+		@media only screen and (max-aspect-ratio: 1/1) {
+			body {
+				margin: 0;
+				padding: 0;
+			}
+
+			.black-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgb(0, 0, 0);
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				z-index: 9999;
+			}
+
+			.small-image {
+				width: 300px;
+				height: 300px;
+				background-image: url('rotate.png');
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+			.white-text {
+				color: white;
+				font-size: 30px;
+				margin-top: 20px;
+				margin-left: 15px;
+				margin-right: 15px;
+				text-align: center;
+			}
+
+		}
+
+		@media only screen and (min-aspect-ratio: 1/1) {
+			.white-text {
+				display: none;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="black-overlay">
+		<div class="small-image"></div>
+		<div class="white-text">Please rotate your device to landscape mode</div>
+	</div>
+	<div id="gameContainer">
+		<div class="logo-container">
+			<img src="qookie.png" class="logo-image" alt="Logo">
+		</div>
+		<canvas id="unity-canvas" data-pixel-art=""></canvas>
+		<script src="Build/Music Note CoolMath.loader.js"></script>
+		<script>
+			var canvas = document.querySelector("#unity-canvas");
+			var logoContainer = document.querySelector(".logo-container");
+			var config = {
+				dataUrl: "Build/Music Note CoolMath.data",
+				frameworkUrl: "Build/Music Note CoolMath.framework.js",
+				codeUrl: "Build/Music Note CoolMath.wasm",
+				streamingAssetsUrl: "StreamingAssets",
+				companyName: "Qookie Games",
+				productName: "Music Note",
+				productVersion: "0.1",
+			};
+			var scaleToFit;
+			try {
+				scaleToFit = !!JSON.parse("");
+			} catch (e) {
+				scaleToFit = true;
+			}
+			function progressHandler(progress) {
+				var percent = progress * 100 + '%';
+				canvas.style.background = 'linear-gradient(to right, #ff9c63, #ff9c63 ' + percent + ', #310c12 ' + percent + ', #310c12) no-repeat center';
+				canvas.style.backgroundSize = '80% 1rem';
+			}
+			function onResize() {
+				var container = canvas.parentElement;
+				var aspectRatio = window.innerWidth / window.innerHeight;
+				var w;
+				var h;
+
+				if (aspectRatio >= 1 && aspectRatio <= 22 / 9) {
+					w = window.innerWidth;
+					h = window.innerHeight;
+				} else if (aspectRatio < 1) {
+					w = Math.ceil(window.innerHeight);
+					h = Math.ceil(w / 1);
+				} else {
+					w = Math.floor(window.innerWidth);
+					h = Math.floor(w / (22 / 9));
+				}
+
+				container.style.width = canvas.style.width = w + "px";
+				container.style.height = canvas.style.height = h + "px";
+				container.style.top = Math.floor((window.innerHeight - h) / 2) + "px";
+				container.style.left = Math.floor((window.innerWidth - w) / 2) + "px";
+			}
+			var gameInstance;
+			window.addEventListener('resize', onResize);
+			onResize();
+			if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+				// Mobile device style: fill the whole browser client area with the game canvas:
+				var meta = document.createElement('meta');
+				meta.name = 'viewport';
+				meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+				document.getElementsByTagName('head')[0].appendChild(meta);
+				//config.devicePixelRatio = 1;
+				createUnityInstance(canvas, config, progressHandler).then(function (instance) {
+					canvas = instance.Module.canvas;
+					gameInstance = instance;
+				});
+			}
+			else {
+				createUnityInstance(canvas, config, progressHandler).then(function (instance) {
+					canvas = instance.Module.canvas;
+					onResize();
+					gameInstance = instance;
+				});
+			}
+		</script>
+	</div>
+<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+
+</html>

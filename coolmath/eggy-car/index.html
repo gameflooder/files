@@ -1,0 +1,466 @@
+<!-- Eggy Car from CoolMathGames.com -->
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>Eggy Car – Play it now at CoolmathGames.com</title>
+	
+	<!-- Standardised web app manifest -->
+	<link rel="manifest" href="appmanifest.json" />
+	
+	<!-- Allow fullscreen mode on iOS devices. (These are Apple specific meta tags.) -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="apple-touch-icon" sizes="256x256" href="icon-256.png" />
+	<meta name="HandheldFriendly" content="true" />
+	
+	<!-- Chrome for Android web app tags -->
+	<meta name="mobile-web-app-capable" content="yes" />
+	<link rel="shortcut icon" sizes="256x256" href="icon-256.png" />
+	<script src="jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+
+
+    <!-- All margins and padding must be zero for the canvas to fill the screen. -->
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		html, body {
+			background: #000;
+			color: #fff;
+			overflow: hidden;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+		canvas {
+			touch-action-delay: none;
+			touch-action: none;
+			-ms-touch-action: none;
+		}
+		@font-face {
+		  font-family: Changa One;
+		  src: url(changaone_regular.ttf);
+		}
+		@font-face {
+		  font-family: Changa One;
+		  src: url(changaone_regular.ttf);
+		  font-weight: bold;
+		}
+		.full_screen
+		{
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			left: 0px;
+			top: 0px;
+			margin: 0;
+			overflow: hidden !important; 
+		}
+
+
+		.screen_rotate
+		{
+			background-image: linear-gradient(to bottom, #000, #000);
+			display: none;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			z-index: 4;
+		}
+
+		.screen_rotate .container
+		{
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform-origin: center;
+		}
+
+		.screen_rotate .container.portrait
+		{
+			transform : rotate(90deg);
+		}
+
+		.screen_rotate .container.landscape
+		{
+			transform : rotate(0deg);
+		}
+
+		.screen_rotate .center
+		{
+			position: absolute;
+		    left: 50%;
+		    top: 50%;	
+		}
+
+		.screen_rotate .phone {
+			/*height: 50px;*/
+			/*width: 100px;*/
+			/*border: 3px solid white;*/
+			/*border-radius: 10px;*/
+			position: absolute;
+			width: 118px;
+			height: 228px;
+			background-image:url(rotate_phone.png); 
+			left: -59px;
+			top : -114px;
+			transform-origin: center;
+			animation: phoneRotatePortrait 2.5s ease-in-out infinite forwards;
+		}
+
+		.screen_rotate .arrows {
+			/*height: 50px;*/
+			/*width: 100px;*/
+			/*border: 3px solid white;*/
+			/*border-radius: 10px;*/
+			position: absolute;
+			width: 245px;
+			height: 353px;
+			background-image:url(rotate_arrow.png); 
+			left: -122.5px;
+			top : -176.5px;
+			transform-origin: center;
+			animation: arrowsRotatePortrait 2.5s ease-in-out infinite forwards;
+			/*animation: phoneRotatePortrait 1.5s ease-in-out infinite alternate;*/
+		}
+
+		@keyframes phoneRotatePortrait {
+			0% 
+			{
+				opacity: 0;
+				transform: rotate(0deg)
+			}
+			25%
+			{
+				opacity: 1;
+				transform: rotate(0deg);
+			}
+			55% 
+			{
+				opacity: 1;
+				transform: rotate(-90deg);
+			}
+			80%
+			{
+				opacity: 0;
+				transform: rotate(-90deg);
+			}
+			100%
+			{
+				opacity: 0;
+				transform: rotate(-90deg);
+			}
+
+		}
+
+
+		@keyframes phoneRotateLandscape {
+			0% {
+				transform: rotate(-90deg)
+			}
+			50% {
+				transform: rotate(0deg)
+			}
+			100% {
+				transform: rotate(-90deg)
+			}
+		}
+
+		@keyframes arrowsRotatePortrait {
+			0% 
+			{
+				opacity: 0;
+				transform: rotate(45deg)
+			}
+			15% 
+			{
+				opacity: 0;
+				transform: rotate(45deg)
+			}
+			20%
+			{
+				opacity: 1;
+				transform: rotate(45deg);
+			}
+			50%
+			{
+				opacity: 1;
+			}
+			60% 
+			{
+				opacity: 0;
+				transform: rotate(-270deg);
+			}
+			75%
+			{
+				opacity: 0;
+				transform: rotate(-270deg);
+			}
+			100%
+			{
+				opacity: 0;
+				transform: rotate(-270deg);
+			}
+
+		}
+    </style>
+
+      <script>
+
+      	const AD_TYPEs = {
+		    INTERSTATIAL: 0,
+		    REWARDED: 1
+		}
+
+      	var adTypeCalled = -1;
+
+      	function onGameStart()
+		{
+			console.log("Game Start");
+			if(parent.cmgGameEvent)
+			{
+				parent.cmgGameEvent("start");
+			}
+		}
+
+		function showAd()
+		{
+			c2_callFunction("On_Ad_Served");
+			//adTypeCalled = AD_TYPEs.INTERSTATIAL;
+			//cmgAdBreak();
+		}
+
+		function showRewardedAd()
+		{
+			adTypeCalled = AD_TYPEs.REWARDED;
+			cmgRewardAds();
+		}
+	    // To trigger the event Listener adBreakStart
+	    document.addEventListener("adBreakStart", () => {
+	    	console.log("AdBreak Started")
+		//TODO:  Developer needs to add the logic to pause the game and sound here
+	    });  
+	    // To trigger the event Listener  adBreakComplete
+	    document.addEventListener("adBreakComplete", () => {
+	    	console.log("adBreak Complete");
+
+	    	if(adTypeCalled == AD_TYPEs.INTERSTATIAL)
+	    		c2_callFunction("On_Ad_Served");
+	    	
+
+	    	if(adTypeCalled == AD_TYPEs.REWARDED)
+	    		c2_callFunction("On_RewardedAd_Served");
+
+	    	adTypeCalled = -1;
+	    	
+		//TODO:  Developer needs to add the logic to resume the game and sound here
+	    });    
+	  </script>
+
+	
+
+</head> 
+ 
+<body onload="onPageReady();"> 
+	<div id="fb-root"></div>
+	
+	<script>
+	// Issue a warning if trying to preview an exported project on disk.
+	(function(){
+		// Check for running exported on file protocol
+		if (window.location.protocol.substr(0, 4) === "file")
+		{
+			alert("Exported games won't work until you upload them. (When running on the file:/// protocol, browsers block many features from working for security reasons.)");
+		}
+	})();
+	</script>
+	
+	<!-- The canvas must be inside a div called c2canvasdiv -->
+	<div id="c2canvasdiv">
+	
+		<!-- The canvas the project will render to.  If you change its ID, don't forget to change the
+		ID the runtime looks for in the jQuery events above (ready() and cr_sizeCanvas()). -->
+		<canvas id="c2canvas" width="1280" height="720">
+			<!-- This text is displayed if the visitor's browser does not support HTML5.
+			You can change it, but it is a good idea to link to a description of a browser
+			and provide some links to download some popular HTML5-compatible browsers. -->
+			<h1>Your browser does not appear to support HTML5.  Try upgrading your browser to the latest version.  <a href="http://www.whatbrowser.org">What is a browser?</a>
+			<br/><br/><a href="http://www.microsoft.com/windows/internet-explorer/default.aspx">Microsoft Internet Explorer</a><br/>
+			<a href="http://www.mozilla.com/firefox/">Mozilla Firefox</a><br/>
+			<a href="http://www.google.com/chrome/">Google Chrome</a><br/>
+			<a href="http://www.apple.com/safari/download/">Apple Safari</a></h1>
+		</canvas>
+		
+	</div>
+	
+	<!-- Pages load faster with scripts at the bottom -->
+	
+	
+    <!-- The runtime script.  You can rename it, but don't forget to rename the reference here as well.
+    This file will have been minified and obfuscated if you enabled "Minify script" during export. -->
+	<script src="c2runtime.js"></script>
+
+    <script>
+		// Start the Construct 2 project running on window load.
+		jQuery(document).ready(function ()
+		{			
+			// Create new runtime using the c2canvas
+			cr_createRuntime("c2canvas");
+		});
+		
+		// Pause and resume on page becoming visible/invisible
+		function onVisibilityChanged() {
+			if (document.hidden || document.mozHidden || document.webkitHidden || document.msHidden)
+				cr_setSuspended(true);
+			else
+				cr_setSuspended(false);
+		};
+		
+		document.addEventListener("visibilitychange", onVisibilityChanged, false);
+		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
+		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
+		
+		function OnRegisterSWError(e)
+		{
+			console.warn("Failed to register service worker: ", e);
+		};
+		
+		// Runtime calls this global method when ready to start caching (i.e. after startup).
+		// This registers the service worker which caches resources for offline support.
+		window.C2_RegisterSW = function C2_RegisterSW()
+		{
+			if (!navigator.serviceWorker)
+				return;		// no SW support, ignore call
+			
+			try {
+				navigator.serviceWorker.register("sw.js", { scope: "./" })
+				.then(function (reg)
+				{
+					console.log("Registered service worker on " + reg.scope);
+				})
+				.catch(OnRegisterSWError);
+			}
+			catch (e)
+			{
+				OnRegisterSWError(e);
+			}
+		};
+    </script>
+
+    <div id="screen_rotate" class="full_screen screen_rotate" style="display: none;">
+		<div class="center" data-resize="scale" data-scalemul="3.5">
+			<div class="container landscape">
+				<div class="phone"></div>
+				<div class="arrows"></div>
+			</div>
+		</div>
+	</div>
+
+    <script type="text/javascript">
+    	var isOnMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    	var ORIENTATIONs = {
+			PORTRAIT : 0,
+			LANDSCAPE : 1,
+			BOTH : 2
+		}
+		const RESCALE_MODEs = {
+			WIDTH : 0,
+			HEIGHT : 1,
+			MIN : 2,
+			MAX : 3,
+			VALUE : 4
+		}
+    	var UI_SCALE = 0.75;
+		var CANVAS_WIDTH = 1920;
+		var CANVAS_HEIGHT = 1080;
+		var rescaleMode = RESCALE_MODEs.MIN;
+		var screenOrientation = ORIENTATIONs.LANDSCAPE;
+		var CANVAS_AspectRatio = CANVAS_WIDTH/CANVAS_HEIGHT;
+		var aspectRatio = 0;
+		var screenWidth = 0;
+		var screenHeight = 0;
+		var screenRotate = null;
+
+    	function onPageReady()
+		{
+			console.log("Page Ready");
+			screenRotate = document.getElementById("screen_rotate");
+			Resize();
+		}
+
+
+		function Resize()
+		{
+
+			screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+			screenHeight= Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+			//screenWidth = screen.width;
+			//screenHeight = screen.height;
+			aspectRatio = screenWidth/screenHeight;
+			console.log(screenWidth +"<>"+ screenHeight);
+			//console.log(screenWidth/CANVAS_WIDTH);
+			//console.log(screenHeight/CANVAS_HEIGHT);
+			switch(rescaleMode)
+			{
+				case RESCALE_MODEs.WIDTH:
+				UI_SCALE = screenWidth/CANVAS_WIDTH;
+				break;
+				case RESCALE_MODEs.HEIGHT:
+				UI_SCALE = screenHeight/CANVAS_HEIGHT;
+				break;
+				case RESCALE_MODEs.MIN:
+				UI_SCALE = Math.min(screenWidth/CANVAS_WIDTH,screenHeight/CANVAS_HEIGHT)
+				break;
+				case RESCALE_MODEs.MAX:
+				UI_SCALE = Math.max(screenWidth/CANVAS_WIDTH,screenHeight/CANVAS_HEIGHT)
+				break;
+			}
+			UI_SCALE = UI_SCALE.toFixed(2);
+			var itemsToRescale = document.querySelectorAll("[data-resize]");
+			//console.log(itemsToRescale);
+			itemsToRescale.forEach(function (item) {
+				if(item.dataset.scalemul)
+				{
+					var mul = parseFloat(item.dataset.scalemul);
+					item.style.transform = 'scale('+UI_SCALE*mul+','+UI_SCALE*mul+')';
+				}
+				else
+					item.style.transform = 'scale('+UI_SCALE+','+UI_SCALE+')';
+			});
+
+			if(isOnMobile)
+			{
+				if(!screenRotate)
+					return;
+				switch(screenOrientation)
+				{
+
+					case ORIENTATIONs.PORTRAIT:
+					if(screenWidth > screenHeight)
+						screenRotate.style.display = "block";	
+					else
+						screenRotate.style.display = "none";
+					
+					break;
+
+					case ORIENTATIONs.LANDSCAPE:
+					if(screenHeight > screenWidth)
+						screenRotate.style.display = "block";	
+					else
+						screenRotate.style.display = "none";
+					break;
+				}
+			}
+		}
+		window.addEventListener('resize', function(event){
+		  Resize();
+		});
+    </script>
+
+<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body> 
+</html> 

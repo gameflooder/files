@@ -1,0 +1,178 @@
+<!-- Raccoon Retail from CoolMathGames.com -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+		<meta content="utf-8" http-equiv="encoding">
+		<meta name="viewport" content="width=device-width">
+		<script type="importmap">
+		{
+			"imports": {
+				"three": "../deps/three/build/three.module.js"
+			}
+		}
+		</script>
+		<script type="module" src="bundle/assetWorkerPreload-0f92288d.js"></script>
+		<script type="module" src="bundle/main-da63ada3.js"></script>
+		<style>
+			body, html {
+				position: relative;
+				margin: 0;
+				height: 100%;
+				user-select: none;
+				-webkit-user-select: none;
+				-webkit-touch-callout: none;
+				overflow-x: hidden;
+				background-color: #fdd863;
+				container: page / size;
+			}
+
+			#progress {
+				position: absolute;
+				left: 50%;
+				bottom: 10%;
+				transform: translate(-50%, -50%);
+				z-index: 10;
+				-webkit-appearance: none;
+				appearance: none;
+				width: 180px;
+				height: 30px;
+				border: 6px solid #859955;
+				border-radius: 12px;
+				box-shadow: #54683d 0px 4px 0px;
+				overflow: hidden;
+			}
+
+			#progress::-webkit-progress-bar {
+				background-color: #374526;
+			}
+
+			#progress::-webkit-progress-value {
+				background-color: #bdd278;
+			}
+
+			#loadScreen {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				z-index: 1;
+				position: absolute;
+			}
+
+			#gameWrapper {
+				margin-top: 20px;
+				position: relative;
+				width: 100%;
+				height: 80%;
+				top: 0;
+				left: 0;
+				display: flex;
+				justify-content: center;
+			}
+			#gameWrapper.borderless {
+				margin-top: 0;
+				height: 100%;
+			}
+			#gameWrapper.borderless #gameContainer {
+				width: 100%;
+				border-radius: 0px;
+			}
+			#gameWrapper.borderless-animation {
+				transition: margin-top 1s, height 1s;
+			}
+
+			#gameContainer {
+				background-color: black;
+				width: min(80%, 1200px);
+				height: 100%;
+				overflow: hidden;
+				position: relative;
+				container: game / size;
+			}
+
+			.borderless-animation #gameContainer {
+				box-shadow: #0000004d 0px 10px 20px;
+				border-radius: 5px;
+				transition: width 1s, border-radius 1s;
+			}
+
+			@font-face {
+				font-family: 'Fredoka One';
+				font-style: normal;
+				font-weight: 400;
+				font-display: swap;
+				src: local('Fredoka One'), local('FredokaOne-Regular'), url(./static/FredokaOne.woff2) format('woff2');
+			}
+			@font-face {
+				font-family: 'Fredoka One';
+				font-style: normal;
+				font-weight: 700;
+				font-display: swap;
+				src: local('Fredoka One'), local('FredokaOne-Regular'), url(./static/FredokaOne.woff2) format('woff2');
+			}
+
+			body, html, button {
+				font-family: Fredoka One, Helvetica, Arial, sans-serif;
+			}
+
+			#gameDescription {
+				margin: 20px;
+				max-width: 800px;
+				margin: auto;
+			}
+
+			#gameDescription, #gameDescription a {
+				color: #382200;
+			}
+
+			#gameDescription a:hover {
+				text-decoration: none;
+			}
+		</style>
+		<title>Raccoon Retail</title>
+		<meta name="description" content="Clumsy customers are making a big mess and it's your job to keep the supermarket clean.">
+		<meta name="keywords" content="Action, Arcade, 3D, html5, game, online game, web game, idle game, cleaning, clean-up, customer, mess, shop, shopping, supermarket, upgrade, upgrades, market, spill, driving, driving games, food, race, simulation, management games, management, idle">
+		
+		
+
+		<link rel="icon" href="/static/favicon.svg" sizes="any">
+		<meta property="og:image" content="https://raccoonretail.com/static/thumb.jpg" />
+		<meta property="og:image:alt" content="Clumsy customers are making a big mess and it's your job to keep the supermarket clean." />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="627" />
+		<meta property="og:site_name" content="Raccoon Retail" />
+		<meta property="og:type" content="object" />
+		<meta property="og:title" content="Raccoon Retail" />
+		<meta property="og:url" content="https://raccoonretail.com" />
+		<meta property="og:description" content="Clumsy customers are making a big mess and it's your job to keep the supermarket clean." />
+		<meta name="twitter:image:src" content="https://raccoonretail.com/static/thumb.jpg" />
+		<meta name="twitter:site" content="Raccoon Retail" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Raccoon Retail" />
+		<meta name="twitter:description" content="Clumsy customers are making a big mess and it's your job to keep the supermarket clean." />
+		<script type="application/ld+json">
+			{"@context":"http://schema.org/","@type":"VideoGame","name":"Raccoon Retail","url":"https://raccoonretail.com","image":"https://raccoonretail.com/static/thumb.jpg","description":"Clumsy customers are making a big mess and it's your job to keep the supermarket clean.","creator":{"@type":"Organization","name":"Pelican Party Studios","url":"https://pelicanparty.co"},"gamePlatform":"webgame","applicationCategory":["Game","webgame","GameApplication"],"operatingSystem":["Windows","OSX","Linux"],"aggregateRating":{"ratingValue":"9/10","ratingCount":100}}
+		</script>
+	</head>
+	<body>
+		<div id="gameWrapper">
+			<div id="gameContainer">
+				<progress id="progress" max="100" value="0"></progress>
+				<picture>
+					<source srcset="static/loadScreen/loadScreen.avif" type="image/avif" />
+					<source srcset="static/loadScreen/loadScreen.webp" type="image/webp" />
+					<img src="static/loadScreen/loadScreen.png" id="loadScreen">
+				</picture>
+			</div>
+		</div>
+		<section id="gameDescription"></section>
+		<script>
+			if (window.parent != window || !window.matchMedia('(display-mode: browser)').matches) {
+				gameDescription.style.display = "none";
+				gameWrapper.classList.add("borderless");
+			} else {
+				gameWrapper.classList.add("borderless-animation");
+			}
+		</script>
+	<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+</html>

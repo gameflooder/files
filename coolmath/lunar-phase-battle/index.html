@@ -1,0 +1,214 @@
+<!-- Lunar Phase Battle from CoolMathGames.com -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <meta name="developed-by" content="GameSrishti Studio">
+  <meta name="description" content="Lunar Phase Battle is a turn-based strategy game! Connect moon phases, claim tiles, and outscore your opponent.">
+  <meta name="keywords" content="turn base strategy games, card games, casual strategy games, moon phases, lunar cycle, thinking games">
+  <meta name="author" content="lofgames.com">
+  <title>Lunar Phase Battle – Play it now at CoolmathGames.com</title>
+<style>	  
+	html, body { background-color: #FFFCE9; height: 100%; margin: 0; padding: 0; }
+	 *{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);-moz-tap-highlight-color: rgba(0, 0, 0, 0);	}
+	 loaderset {position: absolute;display:none; width:10px; height:10px;}.img1 {cursor: pointer; position: relative; z-index: 1;left:0;right:0;top:0;bottom:0;display:none;}.img2 {position: absolute;z-index: 2;top: 10px; left:10px;  width:5;  height:11; display:none;}
+	 .loaderPJ {
+	 position: absolute;
+	 left: 50%;
+	 top: 50%;
+	 z-index: 1;
+	 width: 120px;
+	 height: 120px;
+	 margin: -76px 0 0 -76px;
+	 border: 16px solid #EFEDDA;
+	 border-radius: 50%;
+	 border-top: 16px solid #2B4355;
+	 -webkit-animation: spin 2s linear infinite;
+	 animation: spin 2s linear infinite;
+	 }
+	 /* Safari */
+	 @-webkit-keyframes spin {
+	 0% { -webkit-transform: rotate(0deg); }
+	 100% { -webkit-transform: rotate(360deg); }
+	 }
+	 @keyframes spin {
+	 0% { transform: rotate(0deg); }
+	 100% { transform: rotate(360deg); }
+	 }
+	 #animation_container {
+	 position:absolute;
+	  margin:auto;
+	left:0;right:0;
+	 top:0;bottom:0;
+    }
+</style>
+</head>
+<body onload="addListner();" style="margin:0px;overflow:hidden;">
+	<div class="loaderPJ" id="loaderPJx"></div>
+	<script src="libs/commonlof.js" type="text/javascript"></script>  
+	<script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+	<script src="libs/cmlof.js" type="text/javascript"></script> 
+<script src="lpb.js?1751028155646"></script>
+<script>
+// Global Scripts
+	lg.loadFont({
+	f: "Ubuntu",
+	s: "500",
+	b: "700"
+});
+lg.loadFont({
+	f: "Noto Color Emoji",
+	s: "400",
+	b: "400"
+});
+lg.initSDKFunctions();
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+var loadingBar, preloadBG, loadingAnim,preloaderDiv;
+var pcnf={
+	gw: 960,
+	gh: 1280,
+	bmw:0,
+	bmh:0,
+	bw:300,
+	bh: 15,
+	bx: (960-310)/2,
+	by: (1280-80),
+	th: 50,
+	tw: 190,
+	tx: (960-210)/2,
+	ty: (1280-150),
+	ldp:0,
+	sbg: false	
+}
+window.addEventListener('resize', resizePreloader);
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var key = Object.keys(AdobeAn.compositions)[0];
+	var comp=AdobeAn.getComposition(key);
+	var loader = new createjs.LoadQueue(false,null,true);
+	loader.installPlugin(createjs.Sound);
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	loader.addEventListener("progress", handleProgress);
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+	canvas.style.display = 'none';
+    preloaderDiv.style.display = 'none';
+}
+function handleProgress(e){
+	  pcnf.ldp = (e.loaded/e.total)*0.8;
+      loadingBar.style.width =  pcnf.ldp * pcnf.bmw +"px";
+      loadingBar.style.height= pcnf.bmh +"px";
+      resizePreloader();	
+}
+function completeTheBar(){
+   pcnf.it_id = setInterval(increaseWidth, 100);
+   function increaseWidth(){
+		pcnf.ldp += 0.02;
+		loadingBar.style.width =  pcnf.ldp * pcnf.bmw +"px";
+		if(pcnf.ldp >= 1){
+			clearInterval(pcnf.it_id);
+			hidePreloader();
+		}
+   }
+}
+function hidePreloader(){ 
+	  window.removeEventListener('resize', resizePreloader);
+	  var arr = [loadingBar, preloadBG, loadingAnim, preloaderDiv];
+	  for(var itm of arr){
+		caller(100,itm);
+		itm = null;
+	 }
+	 pcnf = null;
+	 canvas.style.display = 'block';
+}
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();	
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }	
+}
+function handleComplete(evt,comp) {
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.lunar_phase_battle();
+	stage = new lib.Stage(canvas);
+	stage.enableMouseOver();	
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	AdobeAn.makeResponsive(true,'both',true,1,[canvas,anim_container,dom_overlay_container]);	
+	completeTheBar();	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+function resizePreloader(evt){
+	try{
+      var iw = window.innerWidth;
+      var	ih=window.innerHeight;		
+      var hR = ih/pcnf.gh;
+      var wR = iw/pcnf.gw;
+      wR = (hR > wR) ? wR : hR;
+      pcnf.bmw = pcnf.bw * wR;
+      pcnf.bmh = pcnf.bh *wR;
+	  loadingBar.style.width =  pcnf.ldp * pcnf.bmw +"px";
+	  loadingBar.style.height= pcnf.bmh +"px";
+      preloadBG.style.width = (pcnf.gw*wR)+ 'px';
+      preloadBG.style.height = (pcnf.gh *wR)+ 'px';
+      preloadBG.style.left = ((window.innerWidth-pcnf.gw*wR)/2)+'px';
+      preloadBG.style.top = ((window.innerHeight-pcnf.gh *wR)/2)+'px';			
+      loadingBar.style.left = ((window.innerWidth-pcnf.gw*wR)/2+pcnf.bx*wR) + 'px';
+      loadingBar.style.top =  ((window.innerHeight-pcnf.gh *wR)/2+ pcnf.by*wR) + 'px';			
+      loadingAnim.style.left = ((window.innerWidth-pcnf.gw*wR)/2+pcnf.tx*wR )+ 'px';
+      loadingAnim.style.top =  ((window.innerHeight-pcnf.gh *wR)/2+ pcnf.ty*wR) + 'px';
+      loadingAnim.style.width = (pcnf.tw*wR )+ 'px';
+      loadingAnim.style.height =  (pcnf.th *wR) + 'px';
+	  if(pcnf.sbg==false){
+		preloadBG.style.display = 'block';
+		loadingBar.style.display = 'block';
+		loadingAnim.style.display = 'block';
+		preloaderDiv.style.display = 'block';	
+	  }     
+  }catch(e){ }
+}
+function addListner(){
+	  try{
+		  pcnf.sbg = true;
+		  canvas = document.getElementById("canvas");
+		  loadingBar = document.getElementById("loadingBar");
+		  preloadBG = document.getElementById("preloadBG");
+		  loadingAnim = document.getElementById("loadingAnim");
+		  preloaderDiv =  document.getElementById("loaderset");
+		 pcnf.sbg =false;
+		init();
+		resizePreloader(null);
+		caller(42,console.log);		 
+	  }catch(e){
+	  }
+}
+</script>	
+      <div class="loaderset" id="loaderset">
+         <img id="preloadBG" class="img1" src="images/preload_mc.jpg?lpb" />
+         <img id="loadingBar" class="img2" src="images/bar_mc.png?lpb" />	
+         <img id="loadingAnim" class="img2" src="images/loader2.gif" />	
+      </div>
+      <script>
+         var PG = document.getElementById("loaderPJx");
+         caller(100,PG);
+      </script>
+	<div id="animation_container" style="background-color:background-color:rgba(0, 0, 0, 0); width:960px; height:1280px">
+		<canvas id="canvas" width="960" height="1280" style="position: absolute; display: block; background-color:rgba(0, 0, 0, 0);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:960px; height:1280px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>    
+<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+</html>

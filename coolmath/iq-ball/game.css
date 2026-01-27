@@ -1,0 +1,96 @@
+﻿@font-face{
+    font-family:'TextBook';
+    font-style:normal;
+    font-weight:700;
+    src:local('TextBook'),
+    url(../assets/fonts/TextBook.ttf) format('truetype');
+}
+ 
+@font-face{
+    font-family:'Vanta';
+    font-style:normal;
+    font-weight:700;
+    src:local('TextBook'),
+    url(../assets/fonts/vanta-4139717.ttf) format('truetype');
+}
+ 
+@font-face{
+    font-family:'Tf2build';
+    font-style:normal;
+    font-weight:700;
+    src:local('TextBook'),
+    url(../assets/fonts/tf2build.ttf) format('truetype');
+}
+ 
+@font-face{
+    font-family:'TavridaAd Bold';
+    font-style:normal;
+    font-weight:700;
+    src:local('TavridaAd Bold'),local('TavridaAd-Bold'),
+    url(../assets/fonts/tavridaad-bold.woff) format('woff'),
+    url(../assets/fonts/tavridaad-bold.ttf) format('truetype');
+}
+ 
+@font-face{
+    font-family:'TavridaAd Normal';
+    font-style:normal;
+    font-weight:700;
+    src:local('TavridaAd Normal'),local('TavridaAd-Normal'),
+    url(../assets/fonts/TBAM.ttf) format('truetype');
+}
+
+body
+{
+    font-family: 'TavridaAd Bold', arial;
+    background: #000000;
+}
+#gameContainer
+{
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    background: none repeat scroll 0 0 #ffffff;
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+}
+
+
+span {
+    font-style: italic
+}
+
+/* Styles 
+canvas{
+  -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}*/
+
+canvas{
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+#orientation {
+    margin: 0 auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../assets/images/orientation.jpg); 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgb(0, 0, 0);
+    z-index: 999;
+    display: none;
+	pointer-events:none;
+
+}

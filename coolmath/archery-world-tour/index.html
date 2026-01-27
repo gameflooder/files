@@ -1,0 +1,71 @@
+<!-- Archery World Tour from CoolMathGames.com -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Archery World Tour – Play it now at Coolmath-games.com</title>
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="no" />
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.01, minimal-ui" />
+	<style>
+		body {
+			margin: 0px;
+			padding: 0px;
+			width: 100%;
+			overflow:hidden
+		}
+
+		canvas {
+			-ms-touch-action: none;
+			image-rendering: -o-crisp-edges;
+			image-rendering: optimize-contrast;
+			-ms-interpolation-mode: nearest-neighbor;
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-moz-tap-highlight-color: rgba(0,0,0,0);
+			tap-highlight-color: rgba(0,0,0,0);
+			user-select: none;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+		}
+	</style>
+
+	<script>
+		window.IS_PROD_ENV = true;
+
+		window.famobi_leaderboard = false;
+		window.famobi_gameID = "archery-world-tour"; // the actual GAMEID is added to the final version by Famobi
+		window.famobi_gameJS = [
+			"coolmath-games.js",
+		    "js/all.js",
+		    function() {
+		        switch(navigator.sayswho) {
+		            case "IE 11":
+		                var cw = document.getElementById("canvas-wrapper");
+		                if(cw) {
+		                    cw.style.backgroundColor = "#000000";
+		                    cw.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; margin: 0 auto; max-width: 300px;"><div style="background: url(images/uiElements.png) no-repeat 0 0; width: 225px; background-size: 500px auto; height: 60px; margin: 0 auto 20px auto;"></div><h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; font-weight: normal; line-height: 130%; color: #fff; text-align: center;">Unfortunately, Archery World Tour doesn\'t work in your web browser.<br><br>Please use a different browser and try again!</h2></div>';
+		                }
+		                break;
+		            default:
+		                console.log("Browser: " + navigator.sayswho);
+		                window.famobi_unlock.init();
+		                extGameLoad();
+		        }
+		    }
+		];
+		(function (document, url, fgJS, firstJS) {
+		    fgJS = document.createElement('script');
+		    firstJS = document.getElementsByTagName('script')[0];
+		    fgJS.src = url + encodeURIComponent(document.location.href);
+		    firstJS.parentNode.insertBefore(fgJS, firstJS);
+		})(document, 'html5games/gameapi/v1.js?e=');
+	</script>
+</head>
+
+	<body>
+		<div id="canvas-wrapper" style="overflow:hidden; width:100%; height:100%; margin:0; padding:0; position:absolute;">
+		   <canvas id="canvas" moz-opaque></canvas>
+		</div>
+	<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+</html>

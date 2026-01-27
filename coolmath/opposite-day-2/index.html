@@ -1,0 +1,215 @@
+<!-- Opposite Day 2 from CoolMathGames.com -->
+<!DOCTYPE HTML>
+<html>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script src="game-setup.js"></script>
+
+    <script src="menu.js"></script>
+
+    <script src="levels/level1.js"></script>
+    <script src="levels/level2.js"></script>
+    <script src="levels/level3.js"></script>
+    <script src="levels/level4.js"></script>
+    <script src="levels/level5.js"></script>
+    <script src="levels/level6.js"></script>
+    <script src="levels/level7.js"></script>
+    <script src="levels/level8.js"></script>
+    <script src="levels/level9.js"></script>
+    <script src="levels/level10.js"></script>
+
+    <script src="bart/bart.js"></script>
+    <script src="bart/phase0.js"></script>
+    <script src="bart/phase1.js"></script>
+    <script src="bart/phase2.js"></script>
+    <script src="bart/phase3.js"></script>
+    <script src="bart/phase4.js"></script>
+    <script src="bart/phase5.js"></script>
+    <script src="bart/stars.js"></script>
+
+    <script src="tas.js"></script>
+    <script src="utilities.js"></script>
+    <script src="beta-testers.js"></script>
+    <script src="save-data.js"></script>
+    <script src="assets.js"></script>
+
+    <script src="game/game.js"></script>
+    <script src="game/background.js"></script>
+    <script src="game/cam.js"></script>
+    <script src="game/input.js"></script>
+    <script src="game/level.js"></script>
+    <script src="game/music.js"></script>
+    <script src="game/objects.js"></script>
+    <script src="game/particles.js"></script>
+    <script src="game/sound-effects.js"></script>
+    <script src="game/ui.js"></script>
+
+    <script src="free-version.js"></script>
+
+    <style>
+        @font-face {
+            font-family: rubik;
+            src: url("fonts/Rubik-Regular.ttf");
+        }
+
+        @font-face {
+            font-family: rubikbold;
+            src: url("fonts/Rubik-SemiBold.ttf");
+        }
+
+        @font-face {
+            font-family: rubikitalic;
+            src: url("fonts/Rubik-Italic.ttf");
+        }
+
+        @font-face {
+            font-family: rubikbolditalic;
+            src: url("fonts/Rubik-SemiBoldItalic.ttf");
+        }
+    </style>
+    <script>
+        var title = "Opposite Day 2 - Play it now at CoolmathGames.com";
+        var dimensions = { width: 1000, height: 1000 };
+
+        window.addEventListener("keydown", function (e) {
+            if (!menu.acceptingKeybindInput) return;
+            menu.keybindInput = { name: e.key, key: e.keyCode };
+            e.preventDefault();
+        });
+
+        var defaultKeybinds = [
+            { name: "left", title: "Not Left", keys: [{ name: "ArrowLeft", key: 37 }, { name: "a", key: 65 }] },
+            { name: "right", title: "Not Right", keys: [{ name: "ArrowRight", key: 39 }, { name: "d", key: 68 }] },
+            { name: "up", title: "Not Up", keys: [{ name: "ArrowUp", key: 38 }, { name: "w", key: 87 }] },
+            { name: "down", title: "Not Down", keys: [{ name: "ArrowDown", key: 40 }, { name: "s", key: 83 }] },
+            { name: "restartLevel", title: "Not Restart Level", keys: [{ name: "r", key: 82 }] },
+            { name: "restartGame", title: "Not Restart Game", keys: [{ name: "y", key: 89 }] },
+            { name: "exit", title: "Not Exit", keys: [{ name: "Escape", key: 27 }] },
+            { name: "settings", title: "Not Settings", keys: [{ name: "p", key: 80 }] },
+            { name: "select", title: "Not Select", keys: [{ name: "Enter", key: 13 }] }
+        ];
+
+        var trollKeybinds = [
+            { name: "left", title: "Not Left", keys: [{ name: "g", key: 71 }, { name: "o", key: 79 }, { name: "o", key: 79 }, { name: "d", key: 68 }] },
+            { name: "right", title: "Not Right", keys: [{ name: "l", key: 76 }, { name: "u", key: 85 }, { name: "c", key: 67 }, { name: "k", key: 75 },] },
+            { name: "up", title: "Not Up", keys: [{ name: "b", key: 66 }, { name: "e", key: 69 }, { name: "a", key: 65 }, { name: "t", key: 84 }] },
+            { name: "down", title: "Not Down", keys: [{ name: "i", key: 73 }, { name: "n", key: 78 }, { name: "g", key: 71 }] },
+            { name: "restartLevel", title: "Not Restart Level", keys: [{ name: "t", key: 84 }, { name: "h", key: 72 }, { name: "e", key: 69 }] },
+            { name: "restartGame", title: "Not Restart Game", keys: [{ name: "g", key: 71 }, { name: "a", key: 65 }, { name: "m", key: 77 }, { name: "e", key: 69 }] },
+            { name: "exit", title: "Not Exit", keys: [{ name: "n", key: 18 }, { name: "o", key: 79 }, { name: "w", key: 87 }] },
+            { name: "settings", title: "Not Settings", keys: [{ name: "l", key: 76 }, { name: "o", key: 79 }, { name: "l", key: 76 }] },
+            { name: "select", title: "Not Select", keys: [{ name: ";", key: 186 }, { name: "]", key: 221 }] }
+        ];
+
+        initialize();
+        audios.bubbles.volume = 0;
+        window.setInterval(update, 10);
+        var t = 0;
+        var frame = 0;
+        var frameRate = 1;
+        var ppougjgaming = false;
+        var notobiv = false;
+        var kribit = false;
+        var johnbutlergames = false;
+        var larrythehamster = false;
+        function clearCharSfx() {
+            ppougjgaming = false;
+            notobiv = false;
+            kribit = false;
+            larrythehamster = false;
+        }
+
+        function main() {
+            if (cmgAPI.currentlyInAdBreak) return;
+            if (word.toLowerCase().endsWith("johnbutlergames")) {
+                clearCharSfx();
+                word = "";
+                johnbutlergames = !johnbutlergames;
+                updateSaveData();
+            }
+            if (word.toLowerCase().endsWith("ppougjgaming")) {
+                clearCharSfx();
+                word = "";
+                ppougjgaming = !ppougjgaming;
+                updateSaveData();
+            }
+            if (word.toLowerCase().endsWith("notobiv")) {
+                clearCharSfx();
+                word = "";
+                notobiv = !notobiv;
+                updateSaveData();
+            }
+            if (word.toLowerCase().endsWith("kribit")) {
+                clearCharSfx();
+                word = "";
+                kribit = !kribit;
+                updateSaveData();
+            }
+            if (word.toLowerCase().endsWith("larrythehamster")) {
+                clearCharSfx();
+                word = "";
+                larrythehamster = !larrythehamster;
+                updateSaveData();
+            }
+            freeVersion.update();
+            menu.tick();
+            freeVersion.draw();
+            t++;
+        }
+
+        function initializeSound() {
+            game.music.updateVolume(menu.settings.musicVolume * (menu.settings.musicMuted ? 0 : 1));
+            game.soundEffects.updateSoundEffectsVolume(menu.settings.soundEffectsVolume * (menu.settings.soundEffectsMuted ? 0 : 1));
+        }
+
+        function initializeFonts() {
+            ctx.save();
+            ctx.globalAlpha = 0;
+            ctx.font = "1px rubik";
+            ctx.fillText("0", 0, 0);
+            ctx.font = "1px rubikbold";
+            ctx.fillText("0", 0, 0);
+            ctx.font = "1px rubikitalic";
+            ctx.fillText("0", 0, 0);
+            ctx.font = "1px rubikbolditalic";
+            ctx.fillText("0", 0, 0);
+            ctx.restore();
+        }
+
+        var saveData = false;
+        var saveDataStored = false;
+
+        initializeSaveData();
+        initializeSettingsData();
+        initializeSound();
+        initializeFonts();
+
+        //menu.titleScreen = 0;
+        //menu.titleScreenAnimation = 0;
+        //game.newGame();
+        //game.level.reload(9);
+        //game.level.playerInvincible = true;
+        //game.level.playerFlightMode = true;
+        //game.level.showWireframes = true;
+        //game.level.showViewBox = true;
+        //game.cam.zoom = 0.5;
+        //game.level.lockedPlayerCamera = true;
+        //Loading.intro = false;
+        //Loading.loaded = true;
+        //frameRate = 10;
+
+        //game.objects.objects.unshift({ type: "cube", x: 0, y: -100 });
+        //game.level.triggers.triggered.push("blue cube ultra");
+        //game.level.triggers.triggerChecks.find(e => e.name == "blue cube ultra").trip();
+
+        var movementRecord = "";
+        bot = false;
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+    <script src="cmg.js"></script>
+<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+
+</html>

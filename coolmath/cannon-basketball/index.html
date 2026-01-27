@@ -1,0 +1,62 @@
+<!-- Cannon Basketball from CoolMathGames.com -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cannon Basketball</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+
+    <script>
+		let isAdBreakActive = false;
+		// To trigger the event Listener adBreakStart
+		document.addEventListener("adBreakStart", () => {
+			console.log("AdBreak Started")
+			//TODO:  Developer needs to add the logic to pause the game and sound here
+			isAdBreakActive = true;
+
+			try {
+				PIXI.sound.pauseAll();
+				TweenMax.pauseAll();
+				setTimeout(()=>{
+					if (isAdBreakActive) TweenMax.pauseAll();
+				}, 1000);
+			} catch (e) {}			
+		});
+		// To trigger the event Listener  adBreakComplete
+		document.addEventListener("adBreakComplete", () => {
+			console.log("adBreak Complete")
+			//TODO:  Developer needs to add the logic to resume the game and sound here
+			isAdBreakActive = false;
+			try {
+				resumeAllSoundsIfAdsNotBeingShownAndFocusNotBeingLost();
+				TweenMax.resumeAll();
+			} catch (e) {}
+		});
+		
+		function cmgAdBreakCall() {
+			try {
+				let _cmgAdBreak = parent.cmgAdBreak ?? cmgAdBreak;
+				if (_cmgAdBreak) {
+					_cmgAdBreak();
+				} else {
+					console.warn('cmgAdBreak not foud!');
+				}
+			} catch (e) {}
+		}
+	</script>
+
+    <script src="js/vendor/pixi.js"></script>
+    <script src="js/vendor/Box2D.js"></script>
+    <script src="js/vendor/TweenMax.js"></script>
+    <script src="js/vendor/pixi-sound.js"></script>
+</head>
+<body>
+    <div id="msg">
+    </div>
+    <script src="js/index.js"></script>
+<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+</html>

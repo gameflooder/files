@@ -1,0 +1,73 @@
+<!-- Iq Ball from CoolMathGames.com -->
+<!DOCTYPE html>
+<html>
+
+	<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+    <meta charset="utf-8" />	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+		<title>IQBall</title>
+		<link rel="stylesheet" href="css/game.css" type="text/css" />
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+		<script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+	
+		<script>
+			let wasMuted = false;
+			// To trigger the event Listener adBreakStart
+			document.addEventListener("adBreakStart", () => {
+				console.log("AdBreak Started")
+				//TODO:  Developer needs to add the logic to pause the game and sound here
+				try {
+					wasMuted = IQBall.game.sound.mute;
+					IQBall.game.sound.setMute();				
+					IQBall.game.paused = true;
+				} catch (e) {}			
+			});
+			// To trigger the event Listener  adBreakComplete
+			document.addEventListener("adBreakComplete", () => {
+				console.log("adBreak Complete")
+				//TODO:  Developer needs to add the logic to resume the game and sound here
+				try {
+					IQBall.game.paused = false;
+					if (!wasMuted) IQBall.game.sound.unsetMute();
+				} catch (e) {}
+			});
+			
+			function cmgAdBreakCall() {
+				try {
+					let _cmgAdBreak = parent.cmgAdBreak ?? cmgAdBreak;
+					if (_cmgAdBreak) {
+						_cmgAdBreak();
+					} else {
+						console.warn('cmgAdBreak not foud!');
+					}
+				} catch (e) {}
+			}
+		</script>
+		
+		<script type="text/javascript" src="lib/phaser.js"></script>
+		<script type="text/javascript" src="compressed/js/box2d.min.js"></script>
+		<script type="text/javascript" src="compressed/js/common.min.js"></script>
+		<script type="text/javascript" src="compressed/js/components.min.js"></script>
+		<script type="text/javascript" src="compressed/js/gamejoints.min.js"></script>
+		
+		<style>
+		  body {
+		    padding: 0px;
+		    margin: 0px;
+			background-color: #000000;
+		  }
+		  </style>
+	</head>
+
+	<body>  
+<!--		<div id="gameContainer"></div> -->
+		<div id="orientation"></div>
+		<!-- include the main game file -->
+		<script src="src/game/main.js"></script>
+	<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+</html>

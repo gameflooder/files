@@ -1,0 +1,29 @@
+<!-- Divide from CoolMathGames.com -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Divide</title>
+<style>
+  #animation_container {
+	position:absolute;
+	margin:auto;
+	left:0;right:0;
+	top:0;bottom:0;
+  }
+</style>
+<script src="libs/createjs-2015.11.26.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+<script type='text/javascript' src='libs/Preloader.js'></script>
+
+</head>
+<body onload="init();" style="margin:0px;">
+	<div id="animation_container" style="background-color:rgba(204, 204, 204, 1.00); width:640px; height:480px">
+		<canvas id="canvas2" width="1024" height="768" style="position: fixed; left: 0; top: 0; display: block; background-color:rgba(204, 204, 204, 1.00);"></canvas>
+		<canvas id="canvas" width="1024" height="768" style="position: absolute; display: block; background-color:rgba(204, 204, 204, 0);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:640px; height:480px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
+<div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+</html>

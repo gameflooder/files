@@ -1,0 +1,291 @@
+<!-- Floor Is Lava from CoolMathGames.com -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Floor is Lava – Play it now at CoolmathGames.com</title>
+
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="./favicons/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="./favicons/favicon-32x32.png" />
+        <link rel="manifest" href="./site.webmanifest" />
+      <script async type="module" crossorigin src="./assets/index-DjQm6kg0.js"></script>
+      <link rel="stylesheet" crossorigin href="./assets/index-3wCiJFwf.css">
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <div id="jump-button-container">
+            <div id="jump-button-inner"></div>
+        </div>
+
+        <div id="joystick-container">
+            <div id="joystick-container-inner"></div>
+        </div>
+
+        <div id="splash-screen" class="bg-layer">
+            <!-- <div id="splash-pylons" class="bg-layer"></div>
+            <div id="splash-car" class="bg-layer"></div>
+            <div class="splash-overlay"></div> -->
+            <div id="splash-cmg" class="bg-layer"></div>
+        </div>
+        <div id="ui-root"></div>
+        <div id="loading-root"></div>
+        <span
+            id="loading-icon"
+            style="position: fixed; bottom: 0; left: 50%; transform: translate(-50%, 0); padding: 10px; z-index: 101"
+            >⌛</span
+        >
+
+        <script>
+            // Wait for the background image to load
+            const splashScreen = document.getElementById("splash-screen");
+            const cmgImage = new Image();
+            const bgImage = new Image();
+            // const pylonImage = new Image();
+            // const carImage = new Image();
+
+            // Set the image source based on screen size
+            const portraitMode = window.innerHeight > window.innerWidth;
+            if (window.innerWidth >= 768 || !portraitMode) {
+                cmgImage.src = "./ui/splash/CoolmathGames.png";
+                bgImage.src = "./ui/splash/LavaSplash.png";
+
+                // pylonImage.src = "./ui/splash/RedDragon.png";
+                // carImage.src = "./ui/splash/WhiteDragon.png";
+            }
+
+            let loadedChildren = 0;
+
+            // const checkIfAllChildrenLoaded = () => {
+            //     if (loadedChildren === splashScreen.childNodes.length) {
+            //         splashScreen.classList.add("animate"); // Start animations once the background is loaded
+            //     }
+            // };
+
+            // splashScreen.childNodes.forEach((child) => {
+            //     child.onload = () => {
+            //         loadedChildren++;
+            //         checkIfAllChildrenLoaded();
+            //     };
+            // });
+
+            [cmgImage, bgImage].forEach((imgContainer) => {
+                imgContainer.onload = () => {
+                    loadedChildren++;
+                    if (loadedChildren === 2) {
+                        splashScreen.classList.add("animate"); // Start animations once the background is loaded
+                    }
+                };
+            });
+        </script>
+    <div id="cmg-credit" style="position:fixed;bottom:0;left:0;right:0;background:#1a1a2e;color:#fff;text-align:center;padding:6px;font-size:11px;z-index:99999;">🎮 <a href="https://www.coolmathgames.com" target="_blank" style="color:#4ade80;">CoolMathGames.com</a> © Coolmath.com LLC</div></body>
+    <footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+    </footer>
+</html>
+
+<style>
+    /* Basic Styles */
+    #splash-screen {
+        background-color: #202020;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 100;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        animation: slowpan 5s ease-in-out 0.5s infinite alternate;
+    }
+
+    .bg-layer {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    /* #splash-car {
+        background-image: url("./ui/splash/WhiteDragon.png");
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    #splash-pylons {
+        background-image: url("./ui/splash/RedDragon.png");
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin-left: -70px;
+        margin-top: 20px;
+        z-index: 1;
+    } */
+
+    #splash-cmg {
+        background-color: #202020;
+        background-image: url("./ui/splash/CoolmathGames.png");
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        z-index: 2;
+        animation: cmg-fadeOut 1.5s ease-out forwards;
+    }
+
+    /* Hide animations until background is loaded */
+    /* #splash-car,
+    #splash-pylons {
+        opacity: 0;
+    } */
+
+    /* .splash-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        background-image: url("./ui/splash/WhiteLines.png");
+        background-repeat: repeat;
+        opacity: 0.5;
+
+        animation: scroll-lines 14s linear infinite;
+    } */
+
+    /* @keyframes scroll-lines {
+        0% {
+            background-position: -800px 0px;
+        }
+        100% {
+            background-position: 800px -800px;
+        }
+    } */
+
+    @keyframes slowpan {
+        0% {
+            transform: translateX(0%) scale(1);
+        }
+
+        100% {
+            transform: translateX(5%) scale(1.1);
+        }
+    }
+
+    /* Start animations only when `animate` class is added */
+    /* .animate #splash-car {
+        animation: carTranslate 7s ease-in infinite;
+    } */
+    /*
+    .animate #splash-pylons {
+        animation: pylonsFly 7s ease-in infinite;
+    } */
+
+    @keyframes cmg-fadeOut {
+        0% {
+            opacity: 1;
+        }
+        20% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
+    /* Keyframes for Car Animation */
+    /* @keyframes carTranslate {
+        0% {
+            opacity: 0;
+            transform: translateX(-200px) translateY(100px) scale(0.8);
+        }
+        10% {
+            opacity: 1;
+        }
+        95% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(100px) translateY(0px) scale(1.2);
+            opacity: 0;
+        }
+    } */
+
+    /* Keyframes for Pylons Animation */
+    /* @keyframes pylonsFly {
+        0% {
+            opacity: 0;
+            transform: translateX(300px) translateY(-200px) scale(0.8);
+        }
+        10% {
+            opacity: 1;
+        }
+        95% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(0px) translateY(0px) scale(1.2);
+            opacity: 0;
+        }
+    } */
+
+    /* Wiggle animation for respawn button */
+    @keyframes wiggle {
+        0%,
+        7% {
+            transform: rotateZ(0deg);
+        }
+        15% {
+            transform: rotateZ(-2deg);
+        }
+        20% {
+            transform: rotateZ(2deg);
+        }
+        25% {
+            transform: rotateZ(-2deg);
+        }
+        30% {
+            transform: rotateZ(2deg);
+        }
+        35% {
+            transform: rotateZ(-1deg);
+        }
+        40%,
+        100% {
+            transform: rotateZ(0deg);
+        }
+    }
+
+    .animate-wiggle {
+        animation: wiggle 2s ease-in-out infinite;
+    }
+
+    /* Adjustments for mobile screens */
+    @media (max-width: 768px) and (orientation: portrait) {
+        #splash-screen {
+            /*Replace later if we get a mobile portrait version of the splash*/
+            background-image: url("./ui/splash/LavaSplash.png");
+            /*translate the background to fit better on smaller screens */
+            background-position: right 33.5% top 60%;
+        }
+
+        @keyframes slowpan {
+            0% {
+                transform: translateX(0) scale(1);
+            }
+
+            100% {
+                transform: translateX(10%) scale(1.2);
+            }
+        }
+    }
+    @media (min-width: 768px) or (orientation: landscape) {
+        #splash-screen {
+            background-image: url("./ui/splash/LavaSplash.png");
+        }
+    }
+</style>
