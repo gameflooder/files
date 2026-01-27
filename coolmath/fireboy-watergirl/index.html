@@ -1,0 +1,767 @@
+<!-- Game: Fireboy and Watergirl | Source: CoolMathGames.com | © Coolmath.com LLC -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Cub n Pup – Play it now at CoolmathGames.com</title>
+
+  <link rel="stylesheet" href="styles.css" media="screen" />
+
+</head>
+<body>
+
+<main class="content">
+  <div class="play-surface"></div>
+  <div class="content__center-frame">
+    <canvas></canvas>
+    <p class="instruction">Blue links move with grid. Rotate grid to connect blue and orange links in different ways.</p>
+    <div class="content__button-row">
+      <button class="button next-level-button">Next level</button>
+    </div>
+  </div>
+</main>
+ 
+<button class="button level-select-button">Levels</button>
+
+<nav class="level-menu">
+  <ol class="level-list"></ol>
+  <button class="level-menu__close-button">
+    <svg viewBox="0 0 16 16" width="16" height="16">
+      <path d="M 3,3 L 13,13 M 13,3 L 3,13" />
+    </svg>
+  </button>
+</nav>
+
+<div class="levels">
+
+<pre id="intro-fixed1" data-blurb="Tutorial">
+instruction: Drag cub to star
+---
+*=.=.
+    !
+. . .
+    !
+@=.=.
+</pre>
+
+<pre id="intro-fixed2" data-blurb="Tutorial">
+instruction: Drag grid to rotate. Cub and star moves with grid. Orange links stay in place.
+---
+* . .
+    !
+. . .
+    !
+@=.=.
+</pre>
+
+<pre id="intro-fixed3" data-blurb="★">
+blurb: ★
+---
+@=. .
+
+. . .
+
+*=. .
+</pre>
+
+<pre id="intro-free1" data-blurb="Tutorial">
+instruction: Blue links move with grid. Rotate grid to connect blue and orange links in different ways.
+---
+@-. .
+!   | 
+. . .
+    |
+*-.-.
+</pre>
+
+<pre id="m3x3-2-med" data-blurb="★">
+. . *
+| | | 
+. . .
+| | | 
+@ .=.
+</pre>
+
+<pre id="m3x3-fixed-switch" data-blurb="★">
+*=.-.
+ 
+. . .
+    | 
+@-. .
+</pre>
+
+<pre id="m4x4-2" data-blurb="★">
+. .=. .
+  | !  
+. . .-*
+  |    
+. . . .
+       
+. @-. .
+</pre>
+
+<pre id="m4x4-1" data-blurb="★">
+. . . .
+       
+* . . @
+  | ! |
+. . . .
+  !    
+. . . .
+</pre>
+
+<pre id="m4x4-3" data-blurb="★">
+. @ . .
+! |    
+. . . .
+      |
+.=.=.-.
+|       
+. * . .
+</pre>
+
+<pre id="m4x4-4" data-blurb="★">
+. . . .
+       
+* . . .
+    !  
+. . .-.
+!      
+.=.=. @
+</pre>
+
+<pre id="m4x4-5" data-blurb="★">
+.-.-.-.
+|       
+@ .-.-.
+       
+* .=. .
+!   |   
+.-.-. .
+</pre>
+
+<pre id="m4x4-6-med" data-blurb="★">
+. * . .
+
+.-.=. .
+  |
+. . . .
+!   |
+.=. @ .
+</pre>
+
+<pre id="m4x4-7-hard1" data-blurb="★★">
+. . *-.
+       
+.-.=. .
+      |
+.=. . .
+  | |  
+@-.-.=.
+</pre>
+
+<pre id="m4x4-8-hard2" data-blurb="★★">
+.-@ .=.
+       
+. . . .
+    |  
+.-. .-*
+  |    
+. .=.-.
+</pre>
+
+<pre id="m4x4-9-hard1" data-blurb="★★">
+. . .=.
+  !    
+@-. .-.
+     
+. .=. .
+       
+. . * .
+</pre>
+
+<pre id="m4x4-10-hard1" data-blurb="★★">
+. @=. .
+  |   
+. .-.-.
+       
+.-.-.-.
+!     ! 
+. * . .
+</pre>
+
+<pre id="m5x5-3" data-blurb="★">
+. . . . .
+  | !   
+. . .-. .
+  |     
+. . . . *
+  |     
+. . .=. .
+  |     
+. @ . . .
+</pre>
+
+<pre id="m5x5-1" data-blurb="★">
+@-.-. .-.
+    |    
+. . . . .
+         
+. . .=. .
+         
+. . . .=.
+    |    
+. .=.-* .
+</pre>
+
+<pre id="m5x5-2" data-blurb="★★">
+. . . . .
+        
+. .=.-. @
+|       !
+. . . .-.
+        
+.=. . .=.
+!       
+* . . . .
+</pre>
+
+<pre id="m5x5-4" data-blurb="★★">
+. . . .-.
+      ! 
+. .-. . .
+  !     |
+.=. . . .
+|        
+. . . . *
+|        
+.-@=. .=.
+</pre>
+
+<pre id="m5x5-5" data-blurb="★★">
+. . . . .
+
+. . .-. *
+    !
+. . .-. .
+
+.=. . . .
+    |
+. @-. . .
+</pre>
+
+<pre id="m5x5-6" data-blurb="★★">
+. . .-.-.
+!   !    
+. .=.-. .
+|   
+. .-. .-@
+!
+* .=. . .
+      |
+.=. .-.=.
+</pre>
+
+<pre id="m5x5-7" data-blurb="★★★">
+.=* . @=.
+|
+. .=. . .
+|   | |
+.=. . .-.
+        |
+. . . .=.
+!    
+. .-.-. .
+</pre>
+
+<pre id="m5x5-8" data-blurb="★★★">
+. * . .-.
+  |     
+. . .=.-.
+!       | 
+. . . . .
+        
+. .-. .=.
+        |
+. . .=.-@
+</pre>
+
+<pre id="m5x5-9" data-blurb="★★★">
+.-.-. . .
+    |    
+. . . .-@
+  !      
+* . .-. .
+|   !    
+.-. . .=.
+    |   !
+. . .=. .
+</pre>
+
+<pre id="m5x5-10" data-blurb="★★">
+. . . . .
+         
+. . . .-@
+  !      
+* . .=. .
+|   !    
+.-. . . .
+         
+. . . . .
+</pre>
+
+<pre id="m5x5-11" data-blurb="★★★">
+. . . .=.
+  |     
+. . . .=.
+|        
+. . .-. .
+! |     
+. .=. . .
+|   !   !
+.-@ . * .
+</pre>
+
+<pre id="m5x5-12" data-blurb="★★">
+. . .=.=.
+        
+. . . . .
+        
+. . . . @
+        
+. . . . .
+        
+* . .=.=.
+</pre>
+
+<pre id="m6x6-1-hard1" data-blurb="★★★">
+. . * . . .
+  ! | |  
+. .-. .-. .
+          |
+. . . . .-.
+      | ! |
+. . .=. . .
+    |
+@-.-. .-. .
+          |
+. .=. . .-.
+</pre>
+
+<pre id="m6x6-2" data-blurb="★★★">
+@ .=. . .=.
+  | | !
+. . . .=. .
+  |     |
+. . . .-. .
+|   !
+. . . . . *
+|     |
+.=. .-. . .
+  |   | |
+.-. . . .=.
+</pre>
+
+<pre id="m6x6-3" data-blurb="★★★">
+.=. .=.-.-*
+  |        
+.-. . . . .
+        | !
+. . .-.-. .
+!          
+.-. .=.=. .
+           
+@ .=. . . .
+  |     !
+. .-. .-. .
+</pre>
+
+<pre id="pivot-4x4-intro" data-blurb="Tutorial">
+instruction: Green links pivot with grid, but point in the same direction
+---
+. .-* .
+  |    
+. . . .
+       
+. .>. .
+       
+. @ . .
+</pre>
+
+<pre id="pivot-5x5-2" data-blurb="★★">
+. . .-.-@
+        
+. .<. . .
+        
+.>. . . .
+| !      
+.-.-. . *
+  !     
+. . . . .
+</pre>
+
+<pre id="pivot-5x5-swirly" data-blurb="★★★">
+. . . . .
+      ^ 
+.<. . . *
+        
+. . . . .
+        
+@ . . .>.
+  v     
+. . . . .
+</pre>
+
+<pre id="pivot-5x5-1" data-blurb="★★★">
+. .-. . .
+      ^ 
+. .<.=.=.
+        
+.>. . .-@
+        
+* . . .=.
+        
+. . . . .
+</pre>
+
+<pre id="pivot-5x5-3" data-blurb="★★">
+.=. . .-*
+    v   
+. . . . .
+         
+. . .-.J.
+         
+@-. . . .
+    v   
+.<. . . .
+</pre>
+
+<pre id="pivot-5x5-4" data-blurb="★★★">
+.-.-. @>.
+!     ^ 
+. . . . .
+  |      
+. . . . .
+  |     
+. . . .=*
+    ^    
+. . .-. .>
+</pre>
+
+<pre id="pivot-5x5-5" data-blurb="★★★">
+.-. . . *
+        
+. .>. . .
+|       v
+.-. . . .
+  ^      
+. . .-. .
+      v 
+@=.=. . .
+</pre>
+
+<pre id="pivot-5x5-6" data-blurb="★★★">
+. . .>. .
+  ! |    
+@=. .-. .
+        
+. . . .=.>
+         
+. . . . .
+         
+. *>.<. .
+</pre>
+
+<pre id="pivot-5x5-7" data-blurb="★★★">
+* . @ . .
+v   |   
+. . . . .
+      !  
+. . . . .
+^     ! !
+. .-. . .
+  !     
+. . . . .
+    v
+</pre>
+
+<pre id="pivot-6x6-1" data-blurb="★★★">
+. . . . . .
+| v         
+@ . . . . *
+  | |      
+. . . . . .
+| !   ^ | K
+. . . .-.=.
+|          
+. .-. . . .
+v          
+.>. . . . .
+</pre>
+
+<pre id="pivot-6x6-3" data-blurb="★★★">
+. @-. .>.-.
+          
+. . . . . .
+          |
+* .>. .=. .
+    !      
+. . . . . .>
+      |   ^
+. . . .=. .
+           
+. .=. . .=.>
+</pre>
+
+<pre id="pivot-6x6-2" data-blurb="★★★">
+. .-.-. .=.
+      v   
+. . . . . .
+  |     ! v
+.>. . . . *
+    ^      
+. . . . . .
+|          
+. .-.<. . .
+! |       |
+. . . .>.-@
+</pre>
+
+<pre id="m44" data-blurb="★★">
+. .=. *-.
+        
+. . .=. .
+!        
+. . . . .
+  |   ! 
+. . . . .
+  |     |
+. @ . .=.
+</pre>
+
+<pre id="m45" data-blurb="★★">
+@ * .>. .
+        
+. .=.=. .
+|     | 
+.>. . . .
+        
+. . . .>.
+|       
+.=. . .-.
+</pre>
+
+<pre id="m46" data-blurb="★★★">
+.-. . .
+    ^ 
+. . . .
+       
+.L. . .
+      !
+@ . .-*
+</pre>
+
+<pre id="m47" data-blurb="★★">
+@ . . . . .
+v v v v v v
+. . . . . .
+ 
+. . . . . .
+           
+. . . . . .
+  v v v v v
+. . . . . .
+           
+. . . .=. *
+v v v v   v
+</pre>
+
+<pre id="m48" data-blurb="★">
+.-.<.>.=. .
+W !       |
+. . .A. . *
+    |   |  
+. .=. . . .
+^ !        
+. .D.-.=.=@
+          | 
+. . .-.-. .
+|          
+.#.=. .<. .
+    v     v
+</pre>
+
+<pre id="m49" data-blurb="★★★">
+. . .-@ .
+    |   
+. . . .J.
+        
+* . . . .
+| !     !
+. . . . .
+    v   !
+. . . .-.
+</pre>
+
+<pre id="m50" data-blurb="★★★">
+*=. . .
+    v
+. . . .
+^     |
+. . . .
+  ^   |
+@ .>. .
+</pre>
+
+<pre id="rotate-tut" data-blurb="Tutorial">
+instruction: Red links are fixed in place, but rotate with grid
+---
+. . . .
+       
+@ .4. .
+  |    
+. . .-*
+       
+. . . .
+</pre>
+
+<pre id="rotate1" data-blurb="★">
+. . .-*
+    |  
+. . . .
+    5  
+.4. . .
+|      
+@ . . .
+</pre>
+
+<pre id="rotate2" data-blurb="★★">
+@ .-.=.
+    |  
+. . .4.
+    |  
+* . . .
+|   |  
+. . . . 
+</pre>
+
+<pre id="rotate3" data-blurb="★★">
+. . * .
+! 5 v  
+. . . @
+  |    
+. .4. .
+  !    
+. . . .
+</pre>
+
+<pre id="rotate3b" data-blurb="★★">
+* . . .
+! 5    
+. . . @
+  |    
+. .4. .
+  !    
+. . . .
+</pre>
+
+<pre id="rotate-5x5-1" data-blurb="★★">
+. . . .-@
+      8 
+. .=. . .
+        
+*=. . . .
+        
+. .-. . .
+        
+. . . . .
+</pre>
+
+<pre id="rotate-5x5-2" data-blurb="★★">
+. . . . .
+        
+. . . .6*
+  |     
+. . . .=.
+  |     
+.4. . . .
+        |
+. . . .-@
+</pre>
+
+<pre id="rotate-5x5-2b" data-blurb="★★★">
+. . . . .
+  !   | 
+.-.-. . .
+  v   |
+. . .-. .
+        
+@ . . . .
+    5   
+. . .=* .
+</pre>
+
+<pre id="rotate-6x6-1" data-blurb="★★★">
+@4.=. . . .
+          
+. . . . . .
+      v 8 |
+.-.-. . . .
+!   !   ^   
+. . . . . .
+           
+. .>. . . .
+!          
+* . .4. . .
+</pre>
+
+<pre id="rotate-6x6-2" data-blurb="★★★">
+. . *<. . .
+          
+.=. .-. . .
+        5
+. . . .-. .
+        |   
+. . . . . .
+           
+. . . . . .
+    5     | 
+. .=. . @-.
+</pre>
+
+<pre id="rotate-6x6-3" data-blurb="★★★">
+.4. . . . @
+!          
+.-. . .=. .
+! 
+. . . . . .
+!           
+.>.6. . . .
+!          
+. . . .=.-.
+      ^    
+. . . . * .
+</pre>
+
+</div>
+
+<div class="splash-screen"></div>
+
+<script src="cubnpup.bndl.min.js"></script>
+
+
+<!-- 
+    ATTRIBUTION NOTICE
+    This game is from CoolMathGames.com
+    Redistributed under their Terms of Use: https://www.coolmathgames.com/terms-use
+    "These materials may be copied, shared, and redistributed, as long as 
+    explicit and visible credit is given to Coolmath.com LLC as the original source."
+-->
+<div id="coolmath-attribution" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;text-align:center;padding:5px;font-size:12px;z-index:99999;font-family:Arial,sans-serif;">
+    Game from <a href="https://www.coolmathgames.com" target="_blank" style="color:#4CAF50;text-decoration:none;font-weight:bold;">CoolMathGames.com</a> • © Coolmath.com LLC
+</div>
+
+</body>
+</html>

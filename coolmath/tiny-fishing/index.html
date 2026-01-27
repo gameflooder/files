@@ -1,0 +1,71 @@
+<!-- Game: Tiny Fishing | Source: CoolMathGames.com | © Coolmath.com LLC -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Puzzle Ball</title>
+    <link rel="shortcut icon" type="image/x-icon" href="media/graphics/misc/favicon.ico" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <!-- Use this metatag when Apple fixes their IOS 9
+    <meta name="viewport" content="width=device-width,height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0, minimal-ui"/>
+    -->
+
+    <!--Temporary fix for IOS 9-->
+    <meta name="viewport" content="initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001, user-scalable=no, minimal-ui"/>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <link rel="stylesheet" type="text/css" href="game.css">
+    <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="webaudio-context-patch.js"></script>
+    <script type="text/javascript" src="https://www.coolmathgames.com/sites/default/files/cmg-ads.js"></script>
+<!-- AnalyticsCode -->
+
+<!-- APICode -->
+<script>
+    // To trigger the event Listener adBreakStart
+    document.addEventListener("adBreakStart", () => {
+    	console.log("AdBreak Started")
+        ig.game.pauseGame();
+	//TODO:  Developer needs to add the logic to pause the game and sound here
+    });  
+    // To trigger the event Listener  adBreakComplete
+    document.addEventListener("adBreakComplete", () => {
+    	console.log("adBreak Complete")
+        ig.game.resumeGame();
+	//TODO:  Developer needs to add the logic to resume the game and sound here
+    });    
+  </script>
+</head>
+
+<div class="gamecenter-activator"></div>
+
+<body onload="setTimeout(function(){window.scrollTo(0,1)},1);">
+<!--body-->
+    <div id="ajaxbar">
+        <div id="game"><canvas id="canvas"></canvas></div>
+
+        <div id="orientate"><img src="media/graphics/orientate/landscape.jpg" /></div>
+        <div id="play" class="play" onclick=""><img src="media/graphics/splash/mobile/cover-start.jpg" /></div>
+        <!--<img id="scrollDown" width="220" height="277"></img>-->
+
+    </div>
+    <!-- <div id="tempdiv"><br><br><br></div> -->
+<!-- APICode2 -->
+
+
+<!-- END OF TEST -->
+
+
+<!-- 
+    ATTRIBUTION NOTICE
+    This game is from CoolMathGames.com
+    Redistributed under their Terms of Use: https://www.coolmathgames.com/terms-use
+    "These materials may be copied, shared, and redistributed, as long as 
+    explicit and visible credit is given to Coolmath.com LLC as the original source."
+-->
+<div id="coolmath-attribution" style="position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;text-align:center;padding:5px;font-size:12px;z-index:99999;font-family:Arial,sans-serif;">
+    Game from <a href="https://www.coolmathgames.com" target="_blank" style="color:#4CAF50;text-decoration:none;font-weight:bold;">CoolMathGames.com</a> • © Coolmath.com LLC
+</div>
+
+</body>
+</html>
